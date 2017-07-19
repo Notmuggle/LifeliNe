@@ -1,0 +1,63 @@
+int motor1_dir1 = 5;
+int motor1_dir2 = 4;
+
+int motor2_dir1 = 3;
+int motor2_dir2 = 2;
+
+ int trigPin=8;
+ int echoPin=A0;
+ int potValue = 0;
+ int motor_value1=0;
+ int motor_value2=0;
+void setup()
+{
+    Serial.begin(9600);
+
+    pinMode(motor1_dir1,OUTPUT);
+    pinMode(motor1_dir2,OUTPUT);
+    
+    pinMode(motor2_dir1,OUTPUT);
+    pinMode(motor2_dir2,OUTPUT);
+  
+    digitalWrite(motor1_dir1,HIGH);
+    digitalWrite(motor1_dir2,LOW);
+  
+    digitalWrite(motor2_dir1,HIGH);
+    digitalWrite(motor2_dir2,LOW);
+    
+}
+void loop()
+{
+  long duration,inches,cm;
+    pinMode(trigPin,OUTPUT);
+    digitalWrite(trigPin,LOW);
+    delayMicroseconds(2);
+    digitalWrite(trigPin,HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin,LOW);
+    pinMode(echoPin,INPUT);
+    duration=pulseIn(echoPin,HIGH);
+     cm= microsecondsToCentimeters(duration);
+     Serial.print(cm);
+     Serial.print("cm ");
+     Serial.println();
+     delay(100);
+
+    
+
+     potValue = analogRead(echoPin);
+     motor_value1 = map(echoPin, 0, 220, 0, 225);
+     motor_value2 = map(echoPin, 0, 220, 0, 225);
+     
+      analogWrite(motor1_dir1,motor_value1);
+    //digitalWrite(motor1_dir2,LOW);
+  
+    analogWrite(motor2_dir1,motor_value2);
+    //digitalWrite(motor2_dir2,LOW);
+    delay(2000);
+     
+}
+long microsecondsToCentimeters(long microseconds)
+{
+return microseconds / 29 / 2;
+}
